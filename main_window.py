@@ -1,10 +1,9 @@
-import json, wolframalpha, easyocr #venv\Scripts\activate
+import wolframalpha, easyocr #venv\Scripts\activate
 
 from deep_translator import GoogleTranslator
-from groq import Groq
 
 from PySide6.QtWidgets import QApplication, QMainWindow, QDialog
-from PySide6.QtCore import Slot
+from PySide6.QtCore import QSettings, Slot
 
 from ui_main import Ui_MainWindow
 from screenshot_window import ScreenshotWidget
@@ -17,16 +16,15 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        with open('settings.json') as f:
-            self.settings = json.load(f)
 
+        self.settings = QSettings('config.ini', QSettings.IniFormat)
         self.ui.btn_settings.clicked.connect(self.open_settings_window)
 
         self.ui.btn_select_area.clicked.connect(self.select_area)
         self.ui.btn_send_request.clicked.connect(self.send_request)
 
-        self.wolfram = wolframalpha.Client(self.settings["API_keys"]["wolfram"])
-        self.translator = GoogleTranslator(source='auto', target=self.settings["General"]["Translation"]['target_languege'])
+        #self.wolfram = wolframalpha.Client(self.settings.value('apikeys/wolfram'))
+        self.translator = GoogleTranslator(source='auto', target=self.settings.value('translation/target_languege'))
 
         self.output = None
     
@@ -59,9 +57,8 @@ class MainWindow(QMainWindow):
         query = self.ui.textEdit.toPlainText()
 
         if self.ui.cb_select_type.currentText() == 'Llama-3':
-            print(self.settings["API_keys"]["llama3"])
+            print(self.settings.value('apikeys/llama3'))
             
-
 
         elif self.ui.cb_select_type.currentText() == 'Wolfram Alpha':
             res = self.wolfram.query(query)
@@ -71,7 +68,7 @@ class MainWindow(QMainWindow):
             self.output = self.translator.translate(query)
 
         
-        if self.settings["General"]["Translation"]["autotranslate"] and self.ui.cb_select_type.currentText() != 'Google translate':
+        if self.settings.value('translation/autotranslate') and self.ui.cb_select_type.currentText() != 'Google translate':
            self.output = self.translator.translate(self.output)
         
         self.ui.tb_result.setText(self.output)
