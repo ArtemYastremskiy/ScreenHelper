@@ -1,0 +1,13 @@
+__pycache__/
+venv/
+
+archive/
+
+screenshot.png
+
+ui-main.ui
+ui_main2.py
+ui-settings.ui
+res-rc.qrc
+
+settings.json
