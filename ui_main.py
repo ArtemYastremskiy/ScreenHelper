@@ -201,7 +201,7 @@ class Ui_MainWindow(object):
 "background-color: rgb(170, 170, 170)\n"
 "}")
         icon4 = QIcon()
-        icon4.addFile(u":/icons/history.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon4.addFile(u":qrc:/device_reset.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.btn_history.setIcon(icon4)
         self.btn_history.setIconSize(QSize(24, 24))
 

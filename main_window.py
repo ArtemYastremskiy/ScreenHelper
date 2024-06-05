@@ -23,7 +23,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_select_area.clicked.connect(self.select_area)
         self.ui.btn_send_request.clicked.connect(self.send_request)
 
-        #self.wolfram = wolframalpha.Client(self.settings.value('apikeys/wolfram'))
+        self.wolfram = wolframalpha.Client(self.settings.value('apikeys/wolfram'))
         self.translator = GoogleTranslator(source='auto', target=self.settings.value('translation/target_languege'))
 
         self.output = None
@@ -55,20 +55,26 @@ class MainWindow(QMainWindow):
     
     def send_request(self):
         query = self.ui.textEdit.toPlainText()
+        
+        if query:
+            if self.ui.cb_select_type.currentText() == 'Llama-3':
+                if not self.settings.value('apikeys/llama3'):
+                    self.output = 'Please set API key for Wolfram Alpha in settings to use it inside this app'
 
-        if self.ui.cb_select_type.currentText() == 'Llama-3':
-            print(self.settings.value('apikeys/llama3'))
+            elif self.ui.cb_select_type.currentText() == 'Wolfram Alpha':
+                if not self.settings.value('apikeys/wolfram'):
+                    self.output = 'Please set API keyfor Wolfram Alpha in settings to use it inside this app'
+                else:
+                    res = self.wolfram.query(query)
+                    self.output = next(res.results).text
+
+            elif self.ui.cb_select_type.currentText() == 'Google translate':
+                self.output = self.translator.translate(query)
             
+            if self.settings.value('translation/autotranslate') and self.ui.cb_select_type.currentText() != 'Google translate':
+                self.output = self.translator.translate(self.output)
 
-        elif self.ui.cb_select_type.currentText() == 'Wolfram Alpha':
-            res = self.wolfram.query(query)
-            self.output = next(res.results).text
+            self.ui.tb_result.setText(self.output)
 
-        elif self.ui.cb_select_type.currentText() == 'Google translate':
-            self.output = self.translator.translate(query)
-
-        
-        if self.settings.value('translation/autotranslate') and self.ui.cb_select_type.currentText() != 'Google translate':
-           self.output = self.translator.translate(self.output)
-        
-        self.ui.tb_result.setText(self.output)
+        else:
+            self.ui.tb_result.setText("Input is empty")
