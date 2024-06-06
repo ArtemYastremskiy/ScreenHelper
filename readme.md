@@ -1,5 +1,5 @@
 # Screen Helper
-It's a program to recognize text from the screen and do something with it, for example translate, ask chatgpt ect.
+It's a program to recognize text from the screen and do something with it, for example translate, ask chatgpt etc.
 
 ## Usage:
 **Note**: You need a Python 3 on your computer.

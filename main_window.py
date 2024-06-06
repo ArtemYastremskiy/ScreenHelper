@@ -21,6 +21,8 @@ class MainWindow(QMainWindow):
         self.settings = QSettings('config.ini', QSettings.IniFormat)
         self.ui.btn_settings.clicked.connect(self.open_settings_window)
 
+        self.ui.btn_help.clicked.connect(self.open_github)
+
         self.ui.btn_select_area.clicked.connect(self.select_area)
         self.ui.btn_send_request.clicked.connect(self.send_request)
 
@@ -37,7 +39,7 @@ class MainWindow(QMainWindow):
 
     def open_github(self):
         driver = webdriver.Firefox()
-        driver.get("https://github.com/ArtemYastremskiy/ScreenHelper")
+        driver.get("https://github.com/ArtemYastremskiy/ScreenHelper#readme")
 
 
     @Slot()
