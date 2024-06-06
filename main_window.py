@@ -33,6 +33,12 @@ class MainWindow(QMainWindow):
     def open_settings_window(self):
         self.settings_window = SettingsWindow()
         self.settings_window.show()
+    
+
+    def open_github(self):
+        driver = webdriver.Firefox()
+        driver.get("https://github.com/ArtemYastremskiy/ScreenHelper")
+
 
     @Slot()
     def select_area(self):
@@ -74,8 +80,8 @@ class MainWindow(QMainWindow):
                 self.output = self.translator.translate(query)
 
             elif rq_type == 'Google search':
-                Driver = webdriver.Firefox()
-                Driver.get(f"https://www.google.com/search?q={'+'.join(query.split(' '))}")
+                driver = webdriver.Firefox()
+                driver.get(f"https://www.google.com/search?q={'+'.join(query.split(' '))}")
             
             if self.settings.value('translation/autotranslate') and rq_type != 'Google translate' and self.output:
                 self.output = self.translator.translate(self.output)
