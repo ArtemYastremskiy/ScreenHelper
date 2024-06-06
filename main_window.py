@@ -1,8 +1,9 @@
 import wolframalpha, easyocr #venv\Scripts\activate
 
 from deep_translator import GoogleTranslator
+from selenium import webdriver
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QDialog
+from PySide6.QtWidgets import QMainWindow
 from PySide6.QtCore import QSettings, Slot
 
 from ui_main import Ui_MainWindow
@@ -51,27 +52,32 @@ class MainWindow(QMainWindow):
                 self.ui.textEdit.setText(''.join(result).replace(':', '.').replace(';', ','))
             
             return result
-
     
+
     def send_request(self):
         query = self.ui.textEdit.toPlainText()
+        rq_type = self.ui.cb_select_type.currentText()
         
         if query:
-            if self.ui.cb_select_type.currentText() == 'Llama-3':
+            if rq_type == 'Llama-3':
                 if not self.settings.value('apikeys/llama3'):
                     self.output = 'Please set API key for Wolfram Alpha in settings to use it inside this app'
 
-            elif self.ui.cb_select_type.currentText() == 'Wolfram Alpha':
+            elif rq_type == 'Wolfram Alpha':
                 if not self.settings.value('apikeys/wolfram'):
                     self.output = 'Please set API keyfor Wolfram Alpha in settings to use it inside this app'
                 else:
                     res = self.wolfram.query(query)
                     self.output = next(res.results).text
 
-            elif self.ui.cb_select_type.currentText() == 'Google translate':
+            elif rq_type == 'Google translate':
                 self.output = self.translator.translate(query)
+
+            elif rq_type == 'Google search':
+                Driver = webdriver.Firefox()
+                Driver.get(f"https://www.google.com/search?q={'+'.join(query.split(' '))}")
             
-            if self.settings.value('translation/autotranslate') and self.ui.cb_select_type.currentText() != 'Google translate':
+            if self.settings.value('translation/autotranslate') and rq_type != 'Google translate' and self.output:
                 self.output = self.translator.translate(self.output)
 
             self.ui.tb_result.setText(self.output)

@@ -12,3 +12,5 @@ res-rc.qrc
 
 settings.json
 config.ini
+
+send_request.py

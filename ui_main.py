@@ -85,6 +85,7 @@ class Ui_MainWindow(object):
         self.cb_select_type.addItem("")
         self.cb_select_type.addItem("")
         self.cb_select_type.addItem("")
+        self.cb_select_type.addItem("")
         self.cb_select_type.setObjectName(u"cb_select_type")
         self.cb_select_type.setStyleSheet(u"background-color: rgb(222, 222, 222);\n"
 "border: 2px solid rgb(34, 34, 34);\n"
@@ -159,7 +160,7 @@ class Ui_MainWindow(object):
 "background-color: rgb(170, 170, 170)\n"
 "}")
         icon2 = QIcon()
-        icon2.addFile(u":/icons/icons/help.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon2.addFile(u":/icons/icons/history.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.btn_help.setIcon(icon2)
         self.btn_help.setIconSize(QSize(24, 24))
 
@@ -200,9 +201,7 @@ class Ui_MainWindow(object):
 "QPushButton:pressed {\n"
 "background-color: rgb(170, 170, 170)\n"
 "}")
-        icon4 = QIcon()
-        icon4.addFile(u":qrc:/device_reset.svg", QSize(), QIcon.Normal, QIcon.Off)
-        self.btn_history.setIcon(icon4)
+        self.btn_history.setIcon(icon2)
         self.btn_history.setIconSize(QSize(24, 24))
 
         self.horizontalLayout.addWidget(self.btn_history)
@@ -223,8 +222,9 @@ class Ui_MainWindow(object):
         self.textEdit.setPlaceholderText(QCoreApplication.translate("MainWindow", u"[no text recognized]", None))
         self.lbl_select_type.setText(QCoreApplication.translate("MainWindow", u"Select type:", None))
         self.cb_select_type.setItemText(0, QCoreApplication.translate("MainWindow", u"Llama-3", None))
-        self.cb_select_type.setItemText(1, QCoreApplication.translate("MainWindow", u"Google translate", None))
-        self.cb_select_type.setItemText(2, QCoreApplication.translate("MainWindow", u"Wolfram Alpha", None))
+        self.cb_select_type.setItemText(1, QCoreApplication.translate("MainWindow", u"Google search", None))
+        self.cb_select_type.setItemText(2, QCoreApplication.translate("MainWindow", u"Google translate", None))
+        self.cb_select_type.setItemText(3, QCoreApplication.translate("MainWindow", u"Wolfram Alpha", None))
 
         self.btn_send_request.setText(QCoreApplication.translate("MainWindow", u"Send reqest", None))
         self.lbl_output.setText(QCoreApplication.translate("MainWindow", u"Output:", None))
